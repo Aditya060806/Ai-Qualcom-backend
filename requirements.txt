@@ -1,0 +1,13 @@
+# Runtime deps for the Brain Node server (mock mode + the HTTP layer of real mode).
+# All of these ship prebuilt wheels for Windows ARM64 (Snapdragon), so no compiler
+# is needed. Plain uvicorn (not uvicorn[standard]) avoids the uvloop/watchfiles
+# native builds that have no win-arm64 wheels.
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+httpx==0.28.1
+
+# Test-only (safe to install everywhere)
+pytest==8.3.4

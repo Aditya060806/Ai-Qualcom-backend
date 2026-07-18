@@ -1,0 +1,43 @@
+# Real (on-device) inference deps for the Snapdragon X Elite. Install these ON
+# THE DEVICE, in addition to requirements.txt, then run with BRUTUS_MODE=real.
+#
+# Every line below is CONFIRMED installed and importing on the target X Elite
+# (Windows ARM64, Python 3.12), from prebuilt win_arm64 wheels (no compiler):
+#   - onnxruntime-qnn registers the QNN plugin EP; get_ep_devices() reports the NPU
+#   - onnxruntime-genai reports is_qnn_available() == True
+#   - onnx-asr + kokoro-onnx import and expose the expected APIs
+#
+# IMPORTANT: QNN is a *plugin execution provider*. It does NOT appear in
+# onnxruntime.get_available_providers(). The app registers it at boot in
+# app/npu.py via register_execution_provider_library(oq.get_ep_name(), oq.get_library_path()).
+# The onnxruntime_qnn package also ships Genie.dll + the V81 Hexagon skel.
+
+# --- LLM: QNN EP + GenAI runtime ---
+onnxruntime-qnn==2.4.0        # pulls onnxruntime + numpy
+onnxruntime==1.27.0           # pinned for reproducibility (pulled by onnxruntime-qnn)
+onnxruntime-genai==0.14.1     # is_qnn_available() == True on this device
+
+# --- ASR: onnx-asr (Whisper ONNX on onnxruntime) ---
+# This is the default ASR on ARM64. faster-whisper is NOT usable here: its engine
+# CTranslate2 has no win-arm64 wheel (pip backtracks forever). Use faster-whisper
+# only on x86/CUDA deployments.
+onnx-asr==0.12.0
+# faster-whisper==1.1.0       # x86 / CUDA only -- do NOT install on ARM64
+
+# --- TTS: Kokoro ONNX (offline) ---
+# Pulls espeakng-loader (bundles espeak-ng, no system install) + phonemizer-fork,
+# all as win_arm64 wheels.
+kokoro-onnx==0.5.0
+
+# Optional, for scripts/download_models.py Hugging Face entries.
+huggingface_hub==0.27.0
+
+# --- NPU LLM via GenieX (the AI Hub Llama 3.2 3B SSD path) ---
+# GenieX is NOT a pip package: it's a separate native Windows ARM64 CLI that
+# serves the model on an OpenAI-compatible localhost port. The Brain Node's
+# `geniex` backend proxies to it (uses httpx from requirements.txt -- nothing to
+# add here). Install + model setup steps are in the README ("The NPU LLM ... via
+# GenieX"). https://geniex.aihub.qualcomm.com/en/run/cli/install
+
+# numpy is pulled transitively (2.5.x on this device); left unpinned to avoid
+# fighting that resolution.

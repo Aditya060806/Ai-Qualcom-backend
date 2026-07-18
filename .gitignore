@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local config + secrets
+.env
+
+# Model files (commit the scripts + manifest, NOT the multi-GB weights)
+models/
+*.onnx
+*.bin
+*.gguf
+*.dlc
+
+# Runtime request/access logs
+logs/
+
+# Server stdout/stderr logs (root-level, not just logs/)
+*.log
