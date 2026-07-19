@@ -1,0 +1,29 @@
+{
+  "_comment": "Model download manifest. Each entry is downloaded by scripts/download_models.py. Use 'url' for a direct download or 'hf_repo'+'hf_file' for a Hugging Face file. VERIFY every source before the event -- URLs and repo ids change. Leave 'url' and 'hf_repo' empty to skip an entry (e.g. the LLM, which you export via Genie in WSL).",
+  "entries": [
+    {
+      "name": "kokoro-tts-model",
+      "dest": "models/tts/kokoro-v1.0.onnx",
+      "url": "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx",
+      "hf_repo": "",
+      "hf_file": "",
+      "note": "Kokoro-82M v1.0 ONNX weights (~325 MB). Confirmed URL from the kokoro-onnx examples."
+    },
+    {
+      "name": "kokoro-tts-voices",
+      "dest": "models/tts/voices-v1.0.bin",
+      "url": "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin",
+      "hf_repo": "",
+      "hf_file": "",
+      "note": "Kokoro v1.0 voice pack. Confirmed URL from the kokoro-onnx examples."
+    },
+    {
+      "name": "llama-3.2-3b-genai",
+      "dest": "models/llm/llama-3.2-3b-genai",
+      "url": "",
+      "hf_repo": "",
+      "hf_file": "",
+      "note": "LLM for the NPU. Build the Genie/onnxruntime-genai QNN bundle in WSL per the plan doc and copy it here, OR set hf_repo to a prebuilt QNN genai model you have verified. Left empty on purpose."
+    }
+  ]
+}
